@@ -9,9 +9,11 @@ var hiTempEL = document.getElementById('hiCurrTemp')
 var loTempEL = document.getElementById('loCurrTemp')
 var windEL = document.getElementById('currWind')
 var humidityEL = document.getElementById('currHumidity')
-
-var uvIndexEL = document.getElementById('currUvInex')
-
+var displayicon1 = document.querySelector(".icon")
+var searchHistoryEl = document.querySelector("#search-history");
+var uvIndexEL = document.getElementById('uvHeader')
+// kelvin variable to convert temperature
+const kelvin = 273;
 
 var searchHistory = []
 // weather class
@@ -40,10 +42,9 @@ function searchHandler(event) {
 
 //this is the city being searched
 let searchCity = document.getElementById('search-input').value;
- var currWeatherInfo = currentWeatherCall(searchCity)
- console.log(searchHistory)
-
+currentWeatherCall(searchCity)
 }
+
 
 function currentWeatherCall(userSearch){
 
@@ -52,11 +53,10 @@ var currentWeatherAPi = "http://api.openweathermap.org/data/2.5/weather?q=" + us
 
 axios.get(currentWeatherAPi)
 .then(res=>{ 
-    console.log(res.data)
     // save cityname to obj
     const obj = new cityData()
     obj.name = res.data.name
-    obj.date = res.data.dt
+    obj.date =  res.data.dt
     obj.temp = res.data.main.temp
     obj.loTemp = res.data.main.temp_min
     obj.hiTemp = res.data.main.temp_max
@@ -75,20 +75,62 @@ axios.get(currentWeatherAPi)
     
     // push the city search name to History array
     searchHistory.push(obj.name)
+    console.log(searchHistory)
+    renderSearchList
 
+    // local storage 
+    var userHistory = JSON.stringify((cityArray).splice(','));
+    localStorage.setItem('city', userHistory); 
+    var searched = JSON.parse(localStorage.getItem('city'));
+    //console.log(searched);
+    var storedCities = searched;
+    
+    // create buttons for city history 
+    var cityList = document.createElement("button");
+    cityList.classList = "btn btn-outline-success my-2 my-sm-0";
+    searchHistoryEl.appendChild(cityList);
+    cityList.innerHTML = storedCities 
 })
+}
+
+function renderSearchList(array){
+    // create a container to display 5 day forecast
+    var SearchContainer = document.createElement("div");
+    SearchContainer.classList = "card text-white bg-info mb-3 col";
+    
+    
+    for (var i=0; i < 10; i++){
+        array[i]
+
+        console.log(array[i])
+    var searchCity = document.createElement("li");
+    searchCity.classList = "flex-row align-center";
+   
 
 }
 
+
+
+
+}
+function dateConverter(dt){
+    var a = new Date(dt * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var time = date + ' ' + month + ' ' + year + ' ' ;
+return time
+}
 
 function uvFetch(lat,lon){
     var uvUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=d7e25feadbb98d58fea6663edfb99b38";
 
 
     axios.get(uvUrl).then((res)=>{ 
-        // save info to obj
       
         renderUV(res.data)
+       
         
     })
 
@@ -98,88 +140,89 @@ function fivedayFetch(lat,lon){
 
 
     axios.get(uvUrl).then((data) => {
-            // console.log(data);
+            console.log(data.data);
             //console.log(data.city.name);
 
             // clear content
-            // forecast.textContent = "";
+            forecast.textContent = "";
 
             // loop through data to display 5 day weather forecast
-            for (var i=0; i < 5; i++) {
+            for (var i=1; i < 6; i++) {
                 const listnumber = i
                 const info = data.data.daily
-
-            console.log(info);
+                
+            console.log(info[i]);
             
-            // // create a container to display 5 day forecast
-            // var forecastContainer = document.createElement("div");
-            // forecastContainer.classList = "card text-white bg-info mb-3 col";
-            // var date = new Date(data.list[i].dt_txt).toLocaleDateString();
-            // forecastContainer.textContent = date;
-            // //console.log(date);
+            // create a container to display 5 day forecast
+            var forecastContainer = document.createElement("div");
+            forecastContainer.classList = "card text-white bg-info mb-3 col";
 
-            // // convert temperature to farenheit
-            // var forecastTemp = document.createElement("li");
-            // forecastTemp.classList = "flex-row align-center";
-            // forecastTemp.textContent = "Temperature: " + Math.floor((data.list[i].main.temp - kelvin) * 1.80 + 32) + "°F";
+            console.log(dateConverter(info[i].dt))
+            forecastContainer.textContent = dateConverter(info[i].dt);
+           
 
-            // //display weather icon
-            // var icondisplay = document.createElement("img");
-            // var icon = data.list[i].weather[0].icon; 
-            // icondisplay.src = "http://openweathermap.org/img/wn/" + icon + ".png";
+            // convert temperature to farenheit
+            var forecastTemp = document.createElement("li");
+            forecastTemp.classList = "flex-row align-center";
+            forecastTemp.textContent = "Temperature: " + Math.floor((info[i].temp.day- kelvin) * 1.80 + 32) + "°F";
+            console.log(forecastTemp.textContent)
+
+            //display weather icon
+            var icondisplay = document.createElement("img");
+            var icon = info[i].weather[0].icon; 
+            icondisplay.src = "http://openweathermap.org/img/wn/" + icon + ".png";
             
-            // // display wind
-            // var wind = document.createElement("li");
-            // wind.classList = "flex-row align-center";
-            // wind.textContent = "Wind: " + data.list[i].wind.speed + " mph";
+            // display wind
+            var wind = document.createElement("li");
+            wind.classList = "flex-row align-center";
+            wind.textContent = "Wind: " + info[i].wind_speed + " mph";
 
-            // // display humidity
-            // var humidity = document.createElement("li");
-            // humidity.classList = "flex-row align-center";
-            // humidity.textContent = "Humidity: " + data.list[i].main.humidity;
+            // display humidity
+            var humidity = document.createElement("li");
+            humidity.classList = "flex-row align-center";
+            humidity.textContent = "Humidity: " + info[i].humidity;
 
-            // // append to container
-            // forecastContainer.appendChild(icondisplay);
-            // forecastContainer.appendChild(forecastTemp);
-            // forecastContainer.appendChild(wind);
-            // forecastContainer.appendChild(humidity);
+            // append to container
+            forecastContainer.appendChild(icondisplay);
+            forecastContainer.appendChild(forecastTemp);
+            forecastContainer.appendChild(wind);
+            forecastContainer.appendChild(humidity);
             
-            // // append container to the dom
-            // forecast.appendChild(forecastContainer);
+            // append container to the dom
+            forecast.appendChild(forecastContainer);
             } 
          })
 
 }
 
-// function fiveDayWeatherCall(userSearch){
 
-// var ForecastWeatherAPi = "http://api.openweathermap.org/data/2.5/forecast?q=" + userSearch + "&appid=d7e25feadbb98d58fea6663edfb99b38";
 
-// axios.get(ForecastWeatherAPi)
-// .then(res=>{
-   
-//     console.log(res.data)
-// })
-// }
- 
-
-function renderUV(object){
-    
-   
+function renderUV(object){   
     uvIndexEL.textContent = object.current.uvi
-
+    console.log(object.current.uvi)
 }
 function renderCurrentCity(object){
     
     cityEL.textContent = object.name
      tempEL.textContent = object.temp
-     dateEL.textContent = object.date
+     dateEL.textContent = dateConverter(object.date)
     loTempEL.textContent = object.loTemp
     hiTempEL.textContent = object.hiTemp
     windEL.textContent = object.wind
     humidityEL.textContent = object.humidity
 }
  
+function renderSearchList(searchHistory){
+searchHistory.map(city => {
+   console.log(city)
+   let city_elm = 
+   return
+   
+},
+console.log(listLinks))
+
+console.log(sweeterArray)
+}3
 
 
 

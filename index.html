@@ -27,28 +27,21 @@
 <div class="container  mt-5">
   <div class="row">
     <div class="list-group col-3">
-      <h2>History</h2>
-      <a href="#" class="list-group-item list-group-item-action active">
-        city name
-      </a>
-      <a href="#" class="list-group-item list-group-item-action active">
-        city name
-      </a>
-      <a href="#" class="list-group-item list-group-item-action active">
-        city name
-      </a>
-      <a href="#" class="list-group-item list-group-item-action active">
-        city name
-      </a>
-      
+      <h4> Search History</h4>
+      <div id="search-history" class="d-flex flex-wrap"> 
+      </div>     
     </div>
   
   
+
+
+    
     <div class="mr-30 col-7 text-center border">
         <h2 class="card-title bolder" id="city">City
         </h2>
         <h2 class="card-title bolder" id="date">date
         </h2>
+        <div class="icon float-md-right"></div>
         
         <p id="currTemp"class="temp">temp</p>
         <p id="hiCurrTemp"class="temp">high temp</p>
@@ -56,8 +49,7 @@
         <p id="currWind"class="wind">wind</p>
         <p id="currHumidity"class="humidity">humidity</p>
         <div class="uv">
-            <p class="uvHeader inline">UV</p>
-            <p id="currUvInex">uvIndex</p>
+            <p id="uvHeader">UV</p>
         </div>
       </div>
   </div>        
@@ -76,31 +68,17 @@
       <p class="card-text">Some example text.</p>
       
     </div>
-  </div> -->
-<div class="container" >
-<h3 class="bolder">5 Day Forecast:</h3>
-</div>
-<div class="card-deck">
-                <div class="card col cardColor">
-                    <ul id="5">Monday</ul>
-                </div>
-                <div class="card col cardColor">
-                    <ul id="13"></ul>
-                </div>
-                <div class="card col cardColor">
-                    <ul id="21"></ul>
-                </div>
-                <div class="card col cardColor">
-                    <ul id="29"></ul>
-                </div>
-                <div class="card col cardColor">
-                    <ul id="37"></ul>
-                </div>
-</div>
+  <-- Display 5 Day Forecast-->
+  <div class= "container">
+    <div>
+      <h4>5-Day Forecast</h4>
+    </div>
+    <div class="row d-flex flex-wrap" id="forecast"></div> 
+
 
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
 <script src="/js/javascript.js"></script>
->
+
 </html>
