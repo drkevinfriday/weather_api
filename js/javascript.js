@@ -46,7 +46,7 @@ currentWeatherCall(searchCity)
 
 function currentWeatherCall(userSearch){
 
-var currentWeatherAPi = "http://api.openweathermap.org/data/2.5/weather?q=" + userSearch + "&appid=d7e25feadbb98d58fea6663edfb99b38" +"&units=imperial";
+var currentWeatherAPi = "https://api.openweathermap.org/data/2.5/weather?q=" + userSearch + "&appid=d7e25feadbb98d58fea6663edfb99b38" +"&units=imperial";
 
 
 axios.get(currentWeatherAPi)
@@ -62,7 +62,7 @@ axios.get(currentWeatherAPi)
     obj.wind = res.data.wind.speed
     obj.humidity = res.data.main.humidity
 mainIcon = res.data.weather[0].icon
-displayicon1.src="http://openweathermap.org/img/wn/" + mainIcon + ".png";
+displayicon1.src="https://openweathermap.org/img/wn/" + mainIcon + ".png";
 
     // uv fetch
     var lat = res.data.coord.lat
@@ -160,7 +160,7 @@ function fivedayFetch(lat,lon){
             //display weather icon
             var icondisplay = document.createElement("img");
             var icon = info[i].weather[0].icon; 
-            icondisplay.src = "http://openweathermap.org/img/wn/" + icon + ".png";
+            icondisplay.src = "https://openweathermap.org/img/wn/" + icon + ".png";
             
             // display wind
             var wind = document.createElement("li");
