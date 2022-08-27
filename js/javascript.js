@@ -51,6 +51,7 @@ var currentWeatherAPi = "http://api.openweathermap.org/data/2.5/weather?q=" + us
 
 axios.get(currentWeatherAPi)
 .then(res=>{ 
+  console.log(res.data)
     // save cityname to obj
     const obj = new cityData()
     obj.name = res.data.name
@@ -60,6 +61,8 @@ axios.get(currentWeatherAPi)
     obj.hiTemp = res.data.main.temp_max
     obj.wind = res.data.wind.speed
     obj.humidity = res.data.main.humidity
+mainIcon = res.data.weather[0].icon
+displayicon1.src="http://openweathermap.org/img/wn/" + mainIcon + ".png";
 
     // uv fetch
     var lat = res.data.coord.lat
@@ -87,7 +90,7 @@ axios.get(currentWeatherAPi)
     
     // create buttons for city history 
     var cityList = document.createElement("button");
-    cityList.classList = "btn btn-outline-success my-2 my-sm-0";
+    cityList.classList = "btn btn-primary btn-lg btn-block my-2";
     searchHistoryEl.appendChild(cityList);
     cityList.innerHTML = cityStored 
     
@@ -115,7 +118,7 @@ function uvFetch(lat,lon){
 
 
     axios.get(uvUrl).then((res)=>{ 
-      
+      console.log(res.data)
         renderUV(res.data)
        
         
@@ -142,7 +145,7 @@ function fivedayFetch(lat,lon){
             
             // create a container to display 5 day forecast
             var forecastContainer = document.createElement("div");
-            forecastContainer.classList = "card text-white bg-info mb-3 col";
+            forecastContainer.classList = "card text-white bg-info  my-2 px-2 col";
 
             // console.log(dateConverter(info[i].dt))
             forecastContainer.textContent = dateConverter(info[i].dt);
@@ -150,7 +153,7 @@ function fivedayFetch(lat,lon){
 
             // convert temperature to farenheit
             var forecastTemp = document.createElement("li");
-            forecastTemp.classList = "flex-row align-center";
+            forecastTemp.classList = "flex-row align-center ";
             forecastTemp.textContent = "Temperature: " + Math.floor((info[i].temp.day- kelvin) * 1.80 + 32) + "°F";
             // console.log(forecastTemp.textContent)
 
@@ -162,7 +165,7 @@ function fivedayFetch(lat,lon){
             // display wind
             var wind = document.createElement("li");
             wind.classList = "flex-row align-center";
-            wind.textContent = "Wind: " + info[i].wind_speed + " mph";
+            wind.textContent = " Weed Speed: " + info[i].wind_speed + " mph";
 
             // display humidity
             var humidity = document.createElement("li");
@@ -185,18 +188,19 @@ function fivedayFetch(lat,lon){
 
 
 function renderUV(object){   
+  console.log(object.current.uvi)
     uvIndexEL.textContent = "UV Index: " + object.current.uvi
     // add color indicator for uvi
-    if ( object.current.uvi > 2.1) {
+    if ( object.current.uvi < 2.1) {
         uvIndexEL.classList.add("green");
       }
-    if ( object.current.uvi > 5.1) {
+    if (object.current.uvi > 2.1 && object.current.uvi < 5.1) {
         uvIndexEL.classList.add("yellow");
       }
-    if ( object.current.uvi > 7.1) {
+    if ( object.current.uvi > 5.1 && object.current.uvi < 7.1) {
         uvIndexEL.classList.add("orange");
       }
-      if (object.current.uvi < 10.1) {
+      if (object.current.uvi > 7.1 &&object.current.uvi < 10.1) {
         uvIndexEL.classList.add("red");
       }else {
         uvIndexEL.classList.add("pruple");
