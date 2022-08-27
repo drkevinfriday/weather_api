@@ -1,0 +1,28 @@
+/* uvi styling */
+.red {
+
+    height: 30px;
+    border: 1px solid red;
+}
+
+.green {
+    height: 30px;
+    border: 1px solid green;
+    background-color: green;
+}
+.yellow {
+    height: 30px;
+    border: 1px solid yellow;
+    background-color: yellow;
+}
+.purple {
+    height: 30px;
+    border: 1px solid purple;
+    background-color: purple;
+}
+.orange {
+    height: 30px;
+    border: 1px solid orange;
+    background-color: orange;
+}
+

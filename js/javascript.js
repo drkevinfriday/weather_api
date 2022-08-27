@@ -10,12 +10,12 @@ var loTempEL = document.getElementById('loCurrTemp')
 var windEL = document.getElementById('currWind')
 var humidityEL = document.getElementById('currHumidity')
 var displayicon1 = document.querySelector(".icon")
-var searchHistoryEl = document.querySelector("#search-history");
+var searchHistoryEl = document.querySelector(".search-history");
 var uvIndexEL = document.getElementById('uvHeader')
-// kelvin variable to convert temperature
+// kelvin variable to convert temperatur.
 const kelvin = 273;
 
-var searchHistory = []
+var searchHistoryArray = []
 // weather class
 
 class cityData {
@@ -36,12 +36,10 @@ class cityData {
 
 // Gets the search input from the search bar
 function searchHandler(event) {
-    event.preventDefault();
-    console.log("fired")
-
-
+    event.preventDefault()
 //this is the city being searched
 let searchCity = document.getElementById('search-input').value;
+// calling the current weather function with the searchCity results
 currentWeatherCall(searchCity)
 }
 
@@ -74,45 +72,34 @@ axios.get(currentWeatherAPi)
     renderCurrentCity(obj)
     
     // push the city search name to History array
-    searchHistory.push(obj.name)
-    console.log(searchHistory)
-    renderSearchList
+    searchHistoryArray
+    .push(obj.name)
+    console.log(searchHistoryArray)
+
+    
 
     // local storage 
-    var userHistory = JSON.stringify((cityArray).splice(','));
-    localStorage.setItem('city', userHistory); 
+    var userSearchCity = JSON.stringify((searchHistoryArray).splice(','));
+    localStorage.setItem('city', userSearchCity); 
     var searched = JSON.parse(localStorage.getItem('city'));
-    //console.log(searched);
-    var storedCities = searched;
+    console.log(searched);
+    var cityStored = searched;
     
     // create buttons for city history 
     var cityList = document.createElement("button");
     cityList.classList = "btn btn-outline-success my-2 my-sm-0";
     searchHistoryEl.appendChild(cityList);
-    cityList.innerHTML = storedCities 
+    cityList.innerHTML = cityStored 
+    
+      // function for user to be able to get weather via search history
+      cityList.onclick = function(){
+        console.log("Clicked!");
+        const city = cityStored;
+        currentWeatherCall(city);
+        };
 })
 }
 
-function renderSearchList(array){
-    // create a container to display 5 day forecast
-    var SearchContainer = document.createElement("div");
-    SearchContainer.classList = "card text-white bg-info mb-3 col";
-    
-    
-    for (var i=0; i < 10; i++){
-        array[i]
-
-        console.log(array[i])
-    var searchCity = document.createElement("li");
-    searchCity.classList = "flex-row align-center";
-   
-
-}
-
-
-
-
-}
 function dateConverter(dt){
     var a = new Date(dt * 1000);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -140,7 +127,7 @@ function fivedayFetch(lat,lon){
 
 
     axios.get(uvUrl).then((data) => {
-            console.log(data.data);
+            // console.log(data.data);
             //console.log(data.city.name);
 
             // clear content
@@ -151,13 +138,13 @@ function fivedayFetch(lat,lon){
                 const listnumber = i
                 const info = data.data.daily
                 
-            console.log(info[i]);
+            // console.log(info[i]);
             
             // create a container to display 5 day forecast
             var forecastContainer = document.createElement("div");
             forecastContainer.classList = "card text-white bg-info mb-3 col";
 
-            console.log(dateConverter(info[i].dt))
+            // console.log(dateConverter(info[i].dt))
             forecastContainer.textContent = dateConverter(info[i].dt);
            
 
@@ -165,7 +152,7 @@ function fivedayFetch(lat,lon){
             var forecastTemp = document.createElement("li");
             forecastTemp.classList = "flex-row align-center";
             forecastTemp.textContent = "Temperature: " + Math.floor((info[i].temp.day- kelvin) * 1.80 + 32) + "°F";
-            console.log(forecastTemp.textContent)
+            // console.log(forecastTemp.textContent)
 
             //display weather icon
             var icondisplay = document.createElement("img");
@@ -198,31 +185,44 @@ function fivedayFetch(lat,lon){
 
 
 function renderUV(object){   
-    uvIndexEL.textContent = object.current.uvi
-    console.log(object.current.uvi)
+    uvIndexEL.textContent = "UV Index: " + object.current.uvi
+    // add color indicator for uvi
+    if ( object.current.uvi > 2.1) {
+        uvIndexEL.classList.add("green");
+      }
+    if ( object.current.uvi > 5.1) {
+        uvIndexEL.classList.add("yellow");
+      }
+    if ( object.current.uvi > 7.1) {
+        uvIndexEL.classList.add("orange");
+      }
+      if (object.current.uvi < 10.1) {
+        uvIndexEL.classList.add("red");
+      }else {
+        uvIndexEL.classList.add("pruple");
+      }
+ 
 }
 function renderCurrentCity(object){
     
     cityEL.textContent = object.name
-     tempEL.textContent = object.temp
-     dateEL.textContent = dateConverter(object.date)
-    loTempEL.textContent = object.loTemp
-    hiTempEL.textContent = object.hiTemp
-    windEL.textContent = object.wind
-    humidityEL.textContent = object.humidity
+     tempEL.textContent = "Current Temp: " + object.temp
+     dateEL.textContent =  "Date: " + dateConverter(object.date)
+    loTempEL.textContent =  "Low Temp: " + object.loTemp
+    hiTempEL.textContent = "High Temp: " + object.hiTemp
+    windEL.textContent = "Wind: "+object.wind
+    humidityEL.textContent = "Humindity: " + object.humidity
 }
  
-function renderSearchList(searchHistory){
-searchHistory.map(city => {
-   console.log(city)
-   let city_elm = 
-   return
-   
-},
-console.log(listLinks))
+function renderSearchList(array){
+array.map(city => {
+   console.log(city) 
+     
+})
+// console.log(listLinks))
 
-console.log(sweeterArray)
-}3
+// console.log(sweeterArray)
+}
 
 
 

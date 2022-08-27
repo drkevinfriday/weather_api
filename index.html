@@ -22,38 +22,34 @@
 </header>
 
 
+<section class="container">
+  <div class="list-group col-12">
+    <h4> Search History</h4>
+    <div id="search-history" class="d-flex flex-wrap"> 
+      <ol class="search-history col-3 row"></ol>
+    </div>     
+  </div>
+</section>
 
-
-<div class="container  mt-5">
-  <div class="row">
-    <div class="list-group col-3">
-      <h4> Search History</h4>
-      <div id="search-history" class="d-flex flex-wrap"> 
-      </div>     
-    </div>
-  
-  
-
-
-    
-    <div class="mr-30 col-7 text-center border">
+<div class="container">
+    <div class="mr-30 width=100 text-center border">
         <h2 class="card-title bolder" id="city">City
         </h2>
         <h2 class="card-title bolder" id="date">date
         </h2>
         <div class="icon float-md-right"></div>
-        
-        <p id="currTemp"class="temp">temp</p>
+       
+        <p id="currTemp"class="temp" >temp</p> 
         <p id="hiCurrTemp"class="temp">high temp</p>
         <p id="loCurrTemp"class="temp">Low temp</p>
         <p id="currWind"class="wind">wind</p>
         <p id="currHumidity"class="humidity">humidity</p>
         <div class="uv">
-            <p id="uvHeader">UV</p>
-        </div>
+            <p id="uvHeader" class="">UV</p>
+        </div>      
       </div>
   </div>        
-</div>
+
 
 
 
@@ -75,7 +71,7 @@
     </div>
     <div class="row d-flex flex-wrap" id="forecast"></div> 
 
-
+  </div>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
