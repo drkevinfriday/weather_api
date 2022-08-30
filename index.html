@@ -14,17 +14,18 @@
 <body>
 <header class="container mx-auto input-group" style="width: 900px"> 
 
-  <h1 class="mx-auto" >Weather Api App</h1>
+  <h1 id="header" class="mx-auto" >Weather Api App</h1>
   <div class="mx-auto input-group" >
     <input type="search" value="Austin" id="search-input" class="mx-auto  form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
     <button type="button" id="searchBtn" class="btn btn-outline-primary">search</button>
   </div>
+  
 </header>
 
 
 <section class="container">
-  <div class="list-group col-12">
-    <h4> Search History</h4>
+  <div class="list-group col-8">
+    <h4 class="shistory"> Search History</h4>
     <div id="search-history" class="d-flex flex-wrap"> 
       <ol class="search-history   rounded col-6 row"></ol>
     </div>     
@@ -32,13 +33,13 @@
 </section>
 
 <div class="container">
-    <div class="mr-30 width=100 text-center border">
+    <div  id="current-info" class="bg-light opacity-35 mr-30 mx- 400 width=100 text-center border">
         <h2 class="card-title bolder" id="city">City
         </h2>
         <h2 class="card-title bolder" id="date">date
         </h2>
         <img class="icon float-md-right"></img>
-       
+       <div>
         <p id="currTemp"class="temp" >temp</p> 
         <p id="hiCurrTemp"class="temp">high temp</p>
         <p id="loCurrTemp"class="temp">Low temp</p>
@@ -46,7 +47,8 @@
         <p id="currHumidity"class="humidity">humidity</p>
         <div class="uv">
             <p id="uvHeader" class="">UV</p>
-        </div>      
+        </div>     
+      </div> 
       </div>
   </div>        
 
@@ -65,12 +67,11 @@
       
     </div>
   <-- Display 5 Day Forecast-->
-  <div class= "container">
-    <div>
-      <h4>5-Day Forecast</h4>
-    </div>
+  <div class= "container" id="forecastTitle">
+     <h4>5-Day Forecast</h4>
     <div class="row d-flex flex-wrap" id="forecast"></div> 
-
+  
+   
   </div>
 </body>
 

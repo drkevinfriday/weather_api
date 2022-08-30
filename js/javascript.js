@@ -145,8 +145,8 @@ function fivedayFetch(lat,lon){
             
             // create a container to display 5 day forecast
             var forecastContainer = document.createElement("div");
-            forecastContainer.classList = "card text-white bg-info  my-2 px-2 col";
-
+            forecastContainer.classList = "card text-black bg-success .bg gradient  mx-2 px-2 col";
+ 
             // console.log(dateConverter(info[i].dt))
             forecastContainer.textContent = dateConverter(info[i].dt);
            
